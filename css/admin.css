@@ -1,0 +1,43 @@
+/* Admin Page CSS */
+
+.html5-slideshow-presentations {
+	float: left;
+}
+.html5-slideshow-presentations p, .html5-slideshow-presentations .form-table {
+	width: auto;
+	max-width: 660px;
+}
+.html5-slideshow-presentations .form-table th {
+	width: auto;
+	border-right: 10px solid #fff;
+}
+.html5-slideshow-presentations .form-table tr {
+	background: #eee;
+	border: none;
+	border-bottom: 10px solid #fff;
+}
+.html5-slideshow-presentations .form-table code {
+	background-color: #fff;
+}
+.jtsocial {
+	float: right;
+}
+.jtsocial a {
+	display: block;
+	margin-bottom: 10px;
+	text-align: right;
+}
+.jtsocial a span {
+	background: url(../images/social.png) no-repeat top left;
+	display: inline-block;
+	width: 64px;
+	height: 64px;
+	vertical-align: middle;
+	margin: 0 8px 0 5px;
+}
+.jtsocial .jtemail span {
+	background-position: -64px 0;
+}
+.jtsocial .jttwitter span {
+	background-position: -128px 0;
+}
