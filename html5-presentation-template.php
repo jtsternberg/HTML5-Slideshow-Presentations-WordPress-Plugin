@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 add_filter( 'body_class', 'dsgnwrks_html5_body_class' );
 function dsgnwrks_html5_body_class( $classes ){
@@ -28,7 +28,7 @@ function html5slidesjs() { ?>
         el.classList.add('prettyprint');
       }
     }
-    
+
     var el = document.createElement('script');
     el.type = 'text/javascript';
     el.src = '<?php echo plugins_url('js/prettify.js', __FILE__ ); ?>';
@@ -44,12 +44,12 @@ function html5slidesjs() { ?>
     el.type = 'text/css';
     el.href = '/css/html5-presentation.css';
     document.body.appendChild(el);
-    
+
     var el = document.createElement('meta');
     el.name = 'viewport';
     el.content = 'width=1100,height=750';
     document.querySelector('head').appendChild(el);
-    
+
     var el = document.createElement('meta');
     el.name = 'apple-mobile-web-app-capable';
     el.content = 'yes';
@@ -58,7 +58,7 @@ function html5slidesjs() { ?>
 
   </script>
 
-  <?php 
+  <?php
   if ( get_option( 'include-wp_footer' ) ) {
     wp_footer();
   }
@@ -69,7 +69,7 @@ function html5slidefunction($title_slide) {
 global $post;
         $html5slide_type = get_post_meta($post->ID, 'html5slide_type', true );
 
-          echo '<article '; post_class(); echo '>'; 
+          echo '<article '; post_class(); echo '>';
 
           if ( $html5slide_type == 'title_slide' ) {
             echo '<h1>' . get_the_title() . '</h1>';
@@ -87,7 +87,8 @@ global $post;
               the_content();
           }
 
-          edit_post_link( 'edit slide', '<div class="html5_edit'. $GLOBALS['html5presentation_edit'] .'">', '</div>' );
+          if ( isset( $GLOBALS['html5presentation_edit'] ) )
+            edit_post_link( 'edit slide', '<div class="html5_edit'. $GLOBALS['html5presentation_edit'] .'">', '</div>' );
           echo '</article>';
 }
 
@@ -105,7 +106,7 @@ global $post;
         $classes[] = 'fill';
       } elseif ( $html5slide_class == 'nobackground' ) {
         $classes[] = 'nobackground';
-      } 
+      }
 
       return $classes;
 
@@ -124,10 +125,10 @@ global $post;
       }
 }
 
-function html5presentationlogo($presentation_id='') { 
-global $post;
+function html5presentationlogo( $presentation_id ) {
+
   if ( is_admin() )
-    return; 
+    return;
       $title_slide = new WP_Query(array(
       'post_type' => 'html5presentation',
       'p' => $presentation_id,
@@ -138,27 +139,23 @@ global $post;
       while ($title_slide->have_posts()) : $title_slide->the_post();
 
 
-      if ( function_exists('has_post_thumbnail') && has_post_thumbnail($post->ID) ) 
-      $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), full );
+      $thumbnail = has_post_thumbnail( get_the_ID() )
+        ? wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' )
+        : false;
 
-      if (!$thumbnail[0]) 
-        $thumb_url = '';
-      else 
-        $thumb_url = $thumbnail[0];
-      
-
+      $thumb_url = ! isset( $thumbnail[0] ) ? '' : $thumbnail[0];
 
       ?>
-    <style type="text/css"> 
+    <style type="text/css">
       .slides.template-default > article:not(.nobackground):not(.biglogo) {
-        background: url(<?php echo $thumb_url; ?>) 660px 625px no-repeat;  
-        
-        background-color: white;  
+        background: url(<?php echo $thumb_url; ?>) 660px 625px no-repeat;
+
+        background-color: white;
       }
     </style>
 
 <?php endwhile;
-wp_reset_query(); 
+wp_reset_query();
 }
 
 function html5_run_presentation($presentation_id) {
@@ -171,11 +168,18 @@ global $post; ?>
 
     Authors: Luke Mahé (code)
              Marcin Wichary (code and design)
-             
+
              Dominic Mazzoni (browser compatibility)
              Charles Chen (ChromeVox support)
 
     URL: http://code.google.com/p/html5slides/
+  -->
+
+  <!--
+    HTML5 Slideshow Presentations WordPress Plugin
+    Authors: Justin Sternberg
+
+    URL: http://wordpress.org/extend/plugins/html5-slideshow-presentations/
   -->
 
   <html>
@@ -188,7 +192,7 @@ global $post; ?>
       <script src='<?php echo plugins_url('js/slides.js', __FILE__ ); ?>'></script>
       <script src='<?php echo plugins_url('js/prettify.js', __FILE__ ); ?>'></script>
 
-      <?php 
+      <?php
       if ( file_exists( get_stylesheet_directory().'/html5slide-replace.css' ) ) {
         echo '<link rel="stylesheet" href="'. get_stylesheet_directory_uri() .'/html5slide-replace.css" type="text/css" media="screen" />';
       } else {
@@ -202,13 +206,13 @@ global $post; ?>
       ?>
 
       <?php html5presentationlogo($presentation_id); ?>
- 
-  <?php do_action( 'dsgnwrks_html5_head' ); ?> 
+
+  <?php do_action( 'dsgnwrks_html5_head' ); ?>
   </head>
 
     <body style='display: none' <?php body_class(); ?>>
 
-      <?php 
+      <?php
       $title_slide = new WP_Query(array(
       'post_type' => 'html5presentation',
       'p' => $presentation_id,
@@ -217,16 +221,16 @@ global $post; ?>
       'order' => 'ASC',
       ));
       while ($title_slide->have_posts()) : $title_slide->the_post();
-      
+
       if ( get_post_meta($post->ID, 'html5presentation_edit', true ) ) $GLOBALS['html5presentation_edit'] = ' hide_edit_link';
 
       html5presentationclass();
 
-      html5slidefunction($title_slide); 
+      html5slidefunction($title_slide);
         endwhile;
         wp_reset_query(); ?>
 
-        <?php 
+        <?php
         $title_slide = new WP_Query(array(
         'post_type' => 'html5presentation',
         'post_parent' => $presentation_id,
@@ -242,9 +246,9 @@ global $post; ?>
       </section>
 
       <?php html5slidesjs(); ?>
-    
-    <?php do_action( 'dsgnwrks_html5_footer' ); ?> 
+
+    <?php do_action( 'dsgnwrks_html5_footer' ); ?>
     </body>
-  </html>  
+  </html>
 
 <?php }

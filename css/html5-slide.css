@@ -3,14 +3,16 @@
 
   Authors: Luke Mahé (code)
            Marcin Wichary (code and design)
-           
+
            Dominic Mazzoni (browser compatibility)
            Charles Chen (ChromeVox support)
 
   URL: http://code.google.com/p/html5slides/
 */
 
-/* Framework */
+/* `Framework
+----------------------------------------------------------------------------------------------------*/
+
 
 html {
   height: 100%;
@@ -25,7 +27,7 @@ body {
 
   height: 100%;
   min-height: 740px;
-  
+
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -85,7 +87,7 @@ body {
   height: 100%;
   left: 0;
   top: 0;
-  
+
   position: absolute;
 
   -webkit-transform: translate3d(0, 0, 0);
@@ -105,7 +107,7 @@ body {
 
   margin-left: -450px;
   margin-top: -350px;
-  
+
   padding: 40px 60px;
 
   box-sizing: border-box;
@@ -138,30 +140,35 @@ body {
 .slides.layout-faux-widescreen > article {
   margin-left: -550px;
   width: 1100px;
-  
+
   padding: 40px 160px;
 }
 
 .slides.template-default > article:not(.nobackground):not(.biglogo) {
-  background: url(../images/wordpress-logo-small.png) 660px 625px no-repeat;  
-  
-  background-color: white;  
-} 
+  background: url(../images/wordpress-logo-small.png) 660px 625px no-repeat;
+  background-color: white;
+}
+
+.slides.layout-widescreen.template-default > article:not(.nobackground):not(.biglogo) {
+  background-position: 60px 625px;
+}
 
 .slides.template-io2011 > article:not(.nobackground):not(.biglogo) {
   background: url(../images/colorbar.png) 0 600px repeat-x,
               url(../images/googleio-logo.png) 640px 625px no-repeat;
 
-  background-size: 100%, 225px;  
+  background-size: 100%, 225px;
 
-  background-color: white;  
+  background-color: white;
 }
 .slides.layout-widescreen > article:not(.nobackground):not(.biglogo),
 .slides.layout-faux-widescreen > article:not(.nobackground):not(.biglogo) {
   background-position-x: 45px, 840px;
 }
 
-/* Clickable/tappable areas */
+/* `Clickable/tappable areas
+----------------------------------------------------------------------------------------------------*/
+
 
 .slide-area {
   z-index: 1000;
@@ -170,14 +177,14 @@ body {
   left: 0;
   top: 0;
   width: 150px;
-  height: 700px;  
+  height: 700px;
 
   left: 50%;
   top: 50%;
 
-  cursor: pointer;  
-  margin-top: -350px;  
-  
+  cursor: pointer;
+  margin-top: -350px;
+
   tap-highlight-color: transparent;
   -o-tap-highlight-color: transparent;
   -moz-tap-highlight-color: transparent;
@@ -198,7 +205,9 @@ body {
   margin-left: 500px;
 }
 
-/* Slide styles */
+/* `Slide styles
+----------------------------------------------------------------------------------------------------*/
+
 
 .slides.template-default article.biglogo {
   background: white url(../images/logo.jpg) 50% 50% no-repeat;
@@ -210,7 +219,9 @@ body {
   background-size: 600px;
 }
 
-/* Slides */
+/* `Slides
+----------------------------------------------------------------------------------------------------*/
+
 
 .slides > article {
   display: none;
@@ -292,7 +303,9 @@ body {
   -webkit-transform: translate3d(2460px, 0, 0);
 }
 
-/* Styles for slides */
+/* `Styles for slides
+----------------------------------------------------------------------------------------------------*/
+
 
 .slides > article {
   font-family: 'Open Sans', Arial, sans-serif;
@@ -330,13 +343,16 @@ b {
   text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
 }
 
-a {
+a, #back-to-beginning {
   color: #1f749c;
+  text-decoration: underline;
+  cursor: pointer;
+  cursor: hand;
 }
 a:visited {
   color: #1f749c;
 }
-a:hover {
+a:hover, #back-to-beginning:hover {
   color: black;
 }
 
@@ -446,7 +462,7 @@ pre {
   font-size: 20px;
   line-height: 28px;
   padding: 5px 10px;
-  
+
   letter-spacing: -1px;
 
   margin-top: 40px;
@@ -456,7 +472,7 @@ pre {
   background: rgb(240, 240, 240);
   border: 1px solid rgb(224, 224, 224);
   box-shadow: inset 0 2px 6px rgba(0, 0, 0, .1);
-  
+
   overflow: hidden;
 }
 
@@ -545,18 +561,18 @@ th {
   left: 60px;
   top: 644px;
   padding-right: 175px;
-  
+
   font-size: 15px;
-  letter-spacing: 0;  
+  letter-spacing: 0;
   line-height: 18px;
 }
 
 .slides.layout-widescreen .source,
 .slides.layout-faux-widescreen .source {
   left: auto;
-  padding-right: 0;  
+  padding-right: 0;
   right: 60px;
-  padding-left: 175px;  
+  padding-left: 175px;
 }
 
 blockquote p {
@@ -567,46 +583,48 @@ q, blockquote {
   display: block;
   font-size: 60px;
   line-height: 72px;
-  
+
   margin-left: 20px;
-  
+
   margin-top: 100px;
-  margin-right: 150px;    
+  margin-right: 150px;
 }
 q::before, blockquote::before {
   content: '“';
-  
+
   position: absolute;
   display: inline-block;
   margin-left: -2.1em;
   width: 2em;
   text-align: right;
-  
+
   font-size: 90px;
   color: rgb(192, 192, 192);
 }
 q::after, blockquote::after {
   content: '”';
 
-  position: absolute;  
+  position: absolute;
   margin-left: .1em;
   margin-bottom: 0;
 
   font-size: 90px;
-  color: rgb(192, 192, 192);  
+  color: rgb(192, 192, 192);
 }
 div.author {
-  text-align: right;  
+  text-align: right;
   font-size: 40px;
-  
+
   margin-top: 20px;
-  margin-right: 150px;    
+  margin-right: 150px;
 }
 div.author::before {
   content: '—';
 }
 
-/* Size variants */
+/* `Size variants
+----------------------------------------------------------------------------------------------------*/
+
 
 article.smaller p,
 article.smaller ul {
@@ -635,7 +653,9 @@ article.smaller blockquote::after {
   font-size: 60px;
 }
 
-/* Builds */
+/* `Builds
+----------------------------------------------------------------------------------------------------*/
+
 
 .build > * {
   transition: opacity 0.5s ease-in-out 0.2s;
@@ -648,31 +668,84 @@ article.smaller blockquote::after {
   opacity: 0;
 }
 
-/* Pretty print */
+/* `Pretty print
+----------------------------------------------------------------------------------------------------*/
+
 
 .prettyprint .str, /* string content */
 .prettyprint .atv { /* a markup attribute value */
-  color: rgb(0, 138, 53); 
-}  
+  color: rgb(0, 138, 53);
+}
 .prettyprint .kwd, /* a keyword */
 .prettyprint .tag { /* a markup tag name */
   color: rgb(0, 102, 204);
 }
 .prettyprint .com { /* a comment */
-  color: rgb(127, 127, 127); 
-  font-style: italic; 
-}  
+  color: rgb(127, 127, 127);
+  font-style: italic;
+}
 .prettyprint .lit { /* a literal value */
   color: rgb(127, 0, 0);
-}  
+}
 .prettyprint .pun, /* punctuation, lisp open bracket, lisp close bracket */
-.prettyprint .opn, 
-.prettyprint .clo { 
-  color: rgb(127, 127, 127); 
+.prettyprint .opn,
+.prettyprint .clo {
+  color: rgb(127, 127, 127);
 }
 .prettyprint .typ, /* a type name */
-.prettyprint .atn, /* a markup attribute name */ 
-.prettyprint .dec, 
+.prettyprint .atn, /* a markup attribute name */
+.prettyprint .dec,
 .prettyprint .var { /* a declaration; a variable name */
   color: rgb(127, 0, 127);
-}  
+}
+
+/* `WP default editor styles
+----------------------------------------------------------------------------------------------------*/
+
+
+img.centered,
+.aligncenter {
+  display: block;
+  margin: 0 auto 10px;
+}
+
+img.alignnone {
+  display: inline;
+  margin: 0 0 10px;
+}
+
+img.alignleft {
+  display: inline;
+  margin: 0 15px 10px 0;
+}
+
+img.alignright {
+  display: inline;
+  margin: 0 0 10px 15px;
+}
+
+.alignleft {
+  float: left;
+  margin: 0 15px 10px 0;
+}
+
+.alignright {
+  float: right;
+  margin: 0 0 10px 15px;
+}
+
+.wp-caption {
+  padding: 5px;
+  text-align: center;
+}
+
+p.wp-caption-text {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.wp-smiley,
+.wp-wink {
+  border: none;
+  float: none;
+}

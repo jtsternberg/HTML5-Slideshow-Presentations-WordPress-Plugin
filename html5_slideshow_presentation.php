@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: HTML5 Slideshow Presentations
-Plugin URI: http://dsgnwrks.pro/wordpress-html5-slideshow-presentation/
-Description: This plugin adds an html5 slideshow option for creating presentations with WordPress.
-Author URI: http://dsgnwrks.pro
-Author: DsgnWrks
-Donate link: http://dsgnwrks.pro/give/
-Version: 1.0.1
+Plugin URI: http://j.ustin.co/s3bst2
+Description: Create HTML5 slideshow presentations using our favorite cms, WordPress. Host your own presentations and share/present them anytime.
+Author URI: http://about.me/jtsternberg
+Author: Jtsternberg
+Donate link: http://j.ustin.co/rYL89n
+Version: 1.0.7
 */
 
 
@@ -30,8 +30,8 @@ function html5presentation_settings() { require_once('html5presentation-settings
 
 // Enqueue Styles
 add_action('admin_enqueue_scripts', 'dsgnwrks_html5presentation_css');
-function dsgnwrks_html5presentation_css() { 
-    wp_enqueue_style('html5presentation_admin', plugins_url('css/admin.css', __FILE__)); 
+function dsgnwrks_html5presentation_css() {
+    wp_enqueue_style('html5presentation_admin', plugins_url('css/admin.css', __FILE__));
 }
 
 
@@ -116,7 +116,7 @@ function dsgnwrks_html5presentation_icons() {
     global $post_type;
     ?>
     <style>
-    <?php if (($_GET['post_type'] == 'html5presentation') || ($post_type == 'html5presentation')) : ?>
+    <?php if ( ( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'html5presentation') || ( isset( $post_type ) && $post_type == 'html5presentation')) : ?>
     #icon-edit { background:transparent url('<?php echo plugins_url('images/html5-icon.png', __FILE__ ); ?>') no-repeat -14px -5px;}
     <?php endif; ?>
 
@@ -143,7 +143,7 @@ $meta_box = array(
                 array('name' => 'No Title<br />', 'value' => 'no_title'),
                 array('name' => 'Segue Slide<br />', 'value' => 'segue_slide'),
             )
-        ),  
+        ),
         array(
             'name' => 'Slide Style',
             'id' => 'html5slide_class',
@@ -173,24 +173,24 @@ $meta_box = array(
         )
     )
 );
-add_action('admin_menu', 'mytheme_add_box');
+add_action('admin_menu', 'dsgnwrks_html5presentation_add_box');
 
 // Add meta box
-function mytheme_add_box() {
+function dsgnwrks_html5presentation_add_box() {
     global $meta_box;
 
     foreach ($meta_box['pages'] as $page) {
-        add_meta_box($meta_box['id'], $meta_box['title'], 'mytheme_show_box', $page, $meta_box['context'], $meta_box['priority']);
+        add_meta_box($meta_box['id'], $meta_box['title'], 'dsgnwrks_html5presentation_show_box', $page, $meta_box['context'], $meta_box['priority']);
     }
 }
 
 // Callback function to show fields in meta box
-function mytheme_show_box() {
+function dsgnwrks_html5presentation_show_box() {
     global $meta_box, $post;
-    
+
     // Use nonce for verification
-    echo '<input type="hidden" name="mytheme_meta_box_nonce" value="', wp_create_nonce(basename(__FILE__)), '" />';
-    
+    echo '<input type="hidden" name="dsgnwrks_html5presentation_meta_box_nonce" value="', wp_create_nonce(basename(__FILE__)), '" />';
+
     echo '<table class="form-table">';
 
     foreach ($meta_box['fields'] as $field) {
@@ -202,7 +202,7 @@ function mytheme_show_box() {
         } else {
             $meta = get_post_meta($post->ID, $field['id'], true);
         }
-        
+
         echo '<tr>',
                 '<th style="width:65px;">';
                 if ( ( $field['id'] == 'html5presentation_type' ) && ( $post->post_parent != '0' ) ) {
@@ -217,7 +217,7 @@ function mytheme_show_box() {
                 foreach ($field['options'] as $option) {
                     if ( ( $field['id'] == 'html5presentation_type' ) && ( $post->post_parent != '0' ) ) {
                     } else {
-                        echo '<input style="margin-right: 5px;" type="radio" name="', $field['id'], '" value="', $option['value'], '"', $meta == $option['value'] ? ' checked="checked"' : '', ' />', $option['name'];
+                        echo '<label><input style="margin-right: 5px;" type="radio" name="', $field['id'], '" value="', $option['value'], '"', $meta == $option['value'] ? ' checked="checked"' : '', ' />', $option['name'], '</label>';
                     }
                 }
                 break;
@@ -230,46 +230,46 @@ function mytheme_show_box() {
         echo     '<td>',
             '</tr>';
     }
-    
+
     echo '</table>';
 }
 
-add_action('save_post', 'mytheme_save_data');
+add_action( 'save_post', 'dsgnwrks_html5presentation_save_data', 10, 2 );
 // Save data from meta box
-function mytheme_save_data() {
-    global $meta_box, $post;
-    
+function dsgnwrks_html5presentation_save_data( $id, $post ) {
+    global $meta_box;
+
     // verify nonce
-    if (!wp_verify_nonce($_POST['mytheme_meta_box_nonce'], basename(__FILE__))) {
-        return $post->ID;
+    if ( !isset( $_POST['dsgnwrks_html5presentation_meta_box_nonce'] ) || !wp_verify_nonce($_POST['dsgnwrks_html5presentation_meta_box_nonce'], basename(__FILE__))) {
+        return $id;
     }
 
     // check autosave
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return $post->ID;
+        return $id;
     }
 
     // check permissions
     if ('page' == $_POST['post_type']) {
-        if (!current_user_can('edit_page', $post->ID)) {
-            return $post->ID;
+        if (!current_user_can('edit_page', $id)) {
+            return $id;
         }
-    } elseif (!current_user_can('edit_post', $post->ID)) {
-        return $post->ID;
+    } elseif (!current_user_can('edit_post', $id)) {
+        return $id;
     }
-    
+
     foreach ($meta_box['fields'] as $field) {
-        $old = get_post_meta($post->ID, $field['id'], true);
+        $old = get_post_meta($id, $field['id'], true);
         $new = $_POST[$field['id']];
-        
+
         if ($new && $new != $old) {
             if ( ( $field['id'] == 'html5presentation_type' ) && ( $post->post_parent != '0' ) ) {
                 update_post_meta($post->post_parent, $field['id'], $new);
             } else {
-                update_post_meta($post->ID, $field['id'], $new);
+                update_post_meta($id, $field['id'], $new);
             }
         } elseif ('' == $new && $old) {
-            delete_post_meta($post->ID, $field['id'], $old);
+            delete_post_meta($id, $field['id'], $old);
         }
     }
 }
@@ -293,11 +293,11 @@ function dsgnwrks_add_html5presentation_meta_box() {
         'side'
     );
     add_meta_box(
-        'dsgnwrks_html5presentation_select', 
-        'HTML5 Slide' ? __('HTML5 Slide Attributes') : __('Attributes'), 
-        'presentation_attributes_meta_box', 
-        'html5presentation', 
-        'side', 
+        'dsgnwrks_html5presentation_select',
+        'HTML5 Slide' ? __('HTML5 Slide Attributes') : __('Attributes'),
+        'presentation_attributes_meta_box',
+        'html5presentation',
+        'side',
         'core'
         );
 }
@@ -317,7 +317,14 @@ function presentation_attributes_meta_box($post) {
         }
 
         $pages = wp_dropdown_pages(array('post_type' => 'html5presentation', 'exclude_tree' => $post->ID, 'selected' => $selected, 'name' => $meta_name, 'depth' => 1, 'show_option_none' => $option_none, 'sort_column'=> 'menu_order, post_title', 'echo' => 0));
-        if ( ! empty($pages) ) {
+        if ( ! empty( $pages ) ) {
+            ?>
+            <style type="text/css">
+            #associated_presentation_ID {
+                max-width: 100%;
+            }
+            </style>
+            <?php
             if ( $post->post_type == 'html5presentation' ) { ?>
                 <p><strong><?php _e('This slide belongs to:') ?></strong></p>
                 <label class="screen-reader-text" for="parent_id"><?php _e('This slide belongs to:') ?></label>
@@ -327,7 +334,7 @@ function presentation_attributes_meta_box($post) {
                 <p class="howto"><?php _e('Choose an HTML5 Presentation to display on this page:') ?></p>
                 <label class="screen-reader-text" for="<?php echo $meta_name ?>"><?php _e('This slide belongs to:') ?></label>
             <?php }
-        } // end empty pages check 
+        } // end empty pages check
 
         if ( $post->post_type == 'html5presentation' ) { ?>
             <p><strong><?php _e('Manually Order Slides') ?></strong></p>
@@ -339,7 +346,7 @@ function presentation_attributes_meta_box($post) {
 
 add_action('save_post', 'save_associated_html5presentation_to_post', 1, 2);
 function save_associated_html5presentation_to_post($post_id, $post) {
-    if ( !wp_verify_nonce( $_POST['dsgnwrks_html5presentations_meta_box_noncename'], plugin_basename(__FILE__) ))
+    if ( !isset( $_POST['dsgnwrks_html5presentations_meta_box_noncename'] ) || !wp_verify_nonce( $_POST['dsgnwrks_html5presentations_meta_box_noncename'], plugin_basename(__FILE__) ))
     return $post->ID;
 
     if ( !current_user_can( 'edit_post', $post->ID ) )
@@ -354,13 +361,13 @@ function save_associated_html5presentation_to_post($post_id, $post) {
 
 
 }
- 
-add_action('template_redirect', 'load_html5presentation_template');
+
+add_action( 'template_redirect', 'load_html5presentation_template' );
 function load_html5presentation_template() {
-global $post;
-    if( $presentation_id = get_post_meta( $post->ID, 'associated_presentation_ID', true) ) {
-        html5_run_presentation($presentation_id);
-        exit;            
+    global $post;
+    if ( isset( $post->ID ) && ( $presentation_id = get_post_meta( $post->ID, 'associated_presentation_ID', true ) ) ) {
+        html5_run_presentation( $presentation_id );
+        exit;
     }
 }
 

@@ -3,15 +3,17 @@ HTML5 Slideshow Presentations
 
 Contributors: jtsternberg
 Plugin Name: HTML5 Slideshow Presentations
-Plugin URI: http://dsgnwrks.pro/html5-slideshow-presentation-wordpress-plugin/
-Tags: slideshow, presentations, html5, css3, slides, slideshare, speaker presentations 
-Author URI: http://about.me/jtsternberg
+Plugin URI: http://j.ustin.co/s3bst2
+Tags: slideshow, presentations, html5, css3, slides, slideshare, speaker presentations, powerpoint, keynote
+Author URI: http://j.ustin.co
 Author: Jtsternberg
 Donate link: http://j.ustin.co/rYL89n
 Requires at least: 3.1
-Tested up to: 3.3.1
-Stable tag: 1.0.1
-Version: 1.0.1
+Tested up to: 3.6
+Stable tag: 1.0.7
+Version: 1.0.7
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Create HTML5 slideshow presentations using our favorite cms, WordPress. Host your own presentations and share/present them anytime.
 
@@ -35,9 +37,9 @@ If you [view the demo](http://j.ustin.co/yZe7Il), it will walk you through the s
 
 If you want to use your own styles and completely disregard the default styles provided, add a stylesheet named `html5slide-replace.css` to your theme folder. If you would like to add a stylesheet in addition to the one provided, instead add a stylesheet named `html5slide-style.css` to your theme folder.
 
-The plugin provides an option to enable/disable `<?php wp_head(); ?>` as well as `<?php wp_footer(); ?>`. 
+The plugin provides an option to enable/disable `<?php wp_head(); ?>` as well as `<?php wp_footer(); ?>`.
 
-This plugin is intended to operate completely independent of your installed theme, so by default this option is off. You may find that when `<?php wp_head(); ?>` is enabled, that your theme, and other plugins stylesheets may interfere with the default stylesheet, but you may be missing other plugins functionality if you disable it. 
+This plugin is intended to operate completely independent of your installed theme, so by default this option is off. You may find that when `<?php wp_head(); ?>` is enabled, that your theme, and other plugins stylesheets may interfere with the default stylesheet, but you may be missing other plugins functionality if you disable it.
 
 The `<?php wp_footer(); ?>` option will allow the admin bar to be displayed on the slide page (if it is enabled) and will allow other plugins and your theme to add functionality. If you have a plugin that keeps track of analytics and you want it to track the slide pages, you will probably want this enabled.
 
@@ -56,10 +58,10 @@ That being said if you don't want `<?php wp_head(); ?>` or `<?php wp_footer(); ?
 		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
 		</script>
 		<script type="text/javascript">
-		try{ 
+		try{
 		var pageTracker = _gat._getTracker("UA-xxxxxx-x");
 		pageTracker._trackPageview();
-		} catch(err) {} 
+		} catch(err) {}
 		</script>
 		<?php
 	}
@@ -116,6 +118,24 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 == Changelog ==
 
+= 1.0.7 =
+* Add META header for IE 9+ compatibility mode. props (fabienbancharel)[https://github.com/jtsternberg/HTML5-Slideshow-Presentations-WordPress-Plugin/pull/1].
+
+= 1.0.6 =
+* Would you believe another "build" lists bug fix? Also addressed some php notices.
+
+= 1.0.5 =
+* Fixed another bug with the "build" lists not working correctly in some instances.
+
+= 1.0.4 =
+* Fixed a bug with the "build" lists not working correctly in some instances.
+
+= 1.0.3 =
+* Added default WordPress admin styles to the default stylesheet. Also added an optional "Return to the beginning" navigation element by using the id of "back-to-beginning"
+
+= 1.0.2 =
+* fix link to plugin uri in readme.txt and plugin files
+
 = 1.0.1 =
 * Removed dead options to allow edit link on slides.
 
@@ -124,6 +144,24 @@ If you run into a problem or have a question, contact me ([contact form](http://
 
 
 == Upgrade Notice ==
+
+= 1.0.7 =
+* Add META header for IE 9+ compatibility mode. props (fabienbancharel)[https://github.com/jtsternberg/HTML5-Slideshow-Presentations-WordPress-Plugin/pull/1].
+
+= 1.0.6 =
+* Would you believe another "build" lists bug fix? Also addressed some php notices.
+
+= 1.0.5 =
+* Fixed another bug with the "build" lists not working correctly in some instances.
+
+= 1.0.4 =
+* Fixed a bug with the "build" lists not working correctly in some instances.
+
+= 1.0.3 =
+* Added default WordPress admin styles to the default stylesheet. Also added an optional "Return to the beginning" navigation element by using the id of "back-to-beginning"
+
+= 1.0.2 =
+* fix link to plugin uri in readme.txt and plugin files
 
 = 1.0.1 =
 * Removed dead options to allow edit link on slides.
