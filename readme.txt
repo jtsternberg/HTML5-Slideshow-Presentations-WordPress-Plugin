@@ -21,6 +21,8 @@ Create HTML5 slideshow presentations using our favorite cms, WordPress. Host you
 
 With this plugin, You'll be able to create a presentation in no time using WordPress' familiar built-in toolset, and the best part is, You won't need to upload to slideshare when you're done. You're hosting your own presentations and can share/present them anytime. The presentation template is based on [html5slides](http://code.google.com/p/html5slides/) by Luke Mahé and Marcin Wichary. This plugin was built with CSS3 and HTML5 and is intended to be used on modern browsers.
 
+Feel free to [contribute to this plugin on github](http://j.ustin.co/zMQtc0).
+
 --------------------------
 
 = Demo =
