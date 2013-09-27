@@ -183,6 +183,7 @@ global $post; ?>
       <title><?php the_title(); ?></title>
 
       <meta charset='utf-8'>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
       <script src='<?php echo plugins_url('js/slides.js', __FILE__ ); ?>'></script>
       <script src='<?php echo plugins_url('js/prettify.js', __FILE__ ); ?>'></script>
